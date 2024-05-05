@@ -7,14 +7,11 @@ const findAllGames = async (req, res, next) => {
             path: "users",
             select: "-password"
         });
-
-    console.log(req.gamesArray);
     next();
 };
 
 const createGame = async (req, res, next) => {
     try {
-        console.log(req.body);
         req.game = await games.create(req.body);
         next();
     } catch (error) {
@@ -25,7 +22,7 @@ const createGame = async (req, res, next) => {
 
 const findGameById = async (req, res, next) => {
     try {
-        req.game = await games.findById(req.params.id).populate("category").populate({
+        req.game = await games.findById(req.params.id).populate("categories").populate({
             path: "users",
             select: "-password",
         });
@@ -96,8 +93,8 @@ const checkIfUsersAreSafe = async (req, res, next) => {
 };
 
 const checkIsGameExists = async (req, res, next) => {
-    const isInArray = req.games.find((game) => {
-        return req.body.name === game.name;
+    const isInArray = req.gamesArray.find((game) => {
+        return req.body.name === game.title;
     });
 
     if (isInArray) {

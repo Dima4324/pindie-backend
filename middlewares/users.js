@@ -7,7 +7,6 @@ const findAllUsers = async (req, res, next) => {
 
 const createUser = async (req, res, next) => {
     try {
-        console.log(req.body);
         req.user = await users.create(req.body);
         next();
     } catch (error) {
